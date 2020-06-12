@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29728.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureToggles.Api", "FeatureToggles.Api\FeatureToggles.Api.csproj", "{901A5AE7-035F-4616-B01F-62FAB3DA9996}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {240EC5E4-7849-45C0-B47F-4127A2C7A969}
+	EndGlobalSection
+EndGlobal
