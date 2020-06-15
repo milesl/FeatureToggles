@@ -36,7 +36,7 @@ namespace FeatureToggles.Api.Controllers
         /// </summary>
         /// <returns>A collection of products.</returns>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductViewModel>))]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
         {
             var products = await this.context.Products.ToListAsync();
@@ -50,7 +50,7 @@ namespace FeatureToggles.Api.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns>A product.</returns>
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductViewModel>> GetProduct(Guid id)
         {
@@ -111,12 +111,12 @@ namespace FeatureToggles.Api.Controllers
         /// <param name="product">The product.</param>
         /// <returns>The created product.</returns>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductViewModel))]
+        public async Task<ActionResult<ProductViewModel>> PostProduct(ProductViewModel product)
         {
-            this.context.Products.Add(product);
+            var mappedProduct = this.mapper.Map<Product>(product);
+            this.context.Products.Add(mappedProduct);
             await this.context.SaveChangesAsync();
-
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
 
@@ -126,9 +126,9 @@ namespace FeatureToggles.Api.Controllers
         /// <param name="id">The identifier.</param>
         /// <returns>The deleted product.</returns>
         [HttpDelete("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Product>> DeleteProduct(Guid id)
+        public async Task<ActionResult<ProductViewModel>> DeleteProduct(Guid id)
         {
             var product = await this.context.Products.FindAsync(id);
             if (product == null)
@@ -138,8 +138,8 @@ namespace FeatureToggles.Api.Controllers
 
             this.context.Products.Remove(product);
             await this.context.SaveChangesAsync();
-
-            return product;
+            var mapped = this.mapper.Map<ProductViewModel>(product);
+            return this.Ok(mapped);
         }
 
         /// <summary>

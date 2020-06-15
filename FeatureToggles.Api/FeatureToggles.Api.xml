@@ -60,7 +60,7 @@
             <param name="id">The identifier.</param>
             <returns>A feature.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.PutFeature(System.Nullable{System.Guid},FeatureToggles.Api.Models.Feature)">
+        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.PutFeature(System.Nullable{System.Guid},FeatureToggles.Api.ViewModels.FeatureViewModel)">
             <summary>
             Updates a feature by identifier.
             </summary>
@@ -68,7 +68,7 @@
             <param name="feature">The feature.</param>
             <returns>A status code representing success or failure of update.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.PostFeature(FeatureToggles.Api.Models.Feature)">
+        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.PostFeature(FeatureToggles.Api.ViewModels.FeatureViewModel)">
             <summary>
             Creates a feature.
             </summary>
@@ -124,7 +124,7 @@
             <param name="product">The product.</param>
             <returns>A status code representing success or failure of update.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.ProductsController.PostProduct(FeatureToggles.Api.Models.Product)">
+        <member name="M:FeatureToggles.Api.Controllers.ProductsController.PostProduct(FeatureToggles.Api.ViewModels.ProductViewModel)">
             <summary>
             Creates a product.
             </summary>
