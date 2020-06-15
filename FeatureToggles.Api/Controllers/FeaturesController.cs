@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FeatureToggles.Api.Models;
+using AutoMapper;
+using Microsoft.Extensions.Logging;
 
 namespace FeatureToggles.Api.Controllers
 {
@@ -15,20 +17,17 @@ namespace FeatureToggles.Api.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class FeaturesController : ControllerBase
+    public class FeaturesController : BaseApiController
     {
-        /// <summary>
-        /// The this.context
-        /// </summary>
-        private readonly FeatureTogglesContext context;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturesController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public FeaturesController(FeatureTogglesContext context)
+        /// <param name="mapper">The mapper.</param>
+        /// <param name="logger">The logger.</param>
+        public FeaturesController(FeatureTogglesContext context, IMapper mapper, ILogger<FeaturesController> logger) 
+            : base(context, mapper, logger)
         {
-            this.context = context;
         }
 
         /// <summary>

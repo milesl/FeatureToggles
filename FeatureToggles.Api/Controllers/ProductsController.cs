@@ -1,7 +1,10 @@
-﻿using FeatureToggles.Api.Models;
+﻿using AutoMapper;
+using FeatureToggles.Api.Models;
+using FeatureToggles.Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +18,17 @@ namespace FeatureToggles.Api.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
-        /// <summary>
-        /// The context
-        /// </summary>
-        private readonly FeatureTogglesContext context;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductsController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public ProductsController(FeatureTogglesContext context)
+        /// <param name="mapper">The mapper.</param>
+        /// <param name="logger">The logger.</param>
+        public ProductsController(FeatureTogglesContext context, IMapper mapper, ILogger<ProductsController> logger)
+            : base(context, mapper, logger)
         {
-            this.context = context;
         }
 
         /// <summary>
@@ -37,9 +37,11 @@ namespace FeatureToggles.Api.Controllers
         /// <returns>A collection of products.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
         {
-            return await this.context.Products.ToListAsync();
+            var products = await this.context.Products.ToListAsync();
+            var mapped = this.mapper.Map<IEnumerable<ProductViewModel>>(products);
+            return this.Ok(mapped);
         }
 
         /// <summary>
@@ -50,7 +52,7 @@ namespace FeatureToggles.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Product>> GetProduct(Guid id)
+        public async Task<ActionResult<ProductViewModel>> GetProduct(Guid id)
         {
             var product = await this.context.Products.FindAsync(id);
 
@@ -59,7 +61,8 @@ namespace FeatureToggles.Api.Controllers
                 return NotFound();
             }
 
-            return product;
+            var mapped = this.mapper.Map<ProductViewModel>(product);
+            return this.Ok(mapped);
         }
 
         /// <summary>
@@ -72,14 +75,16 @@ namespace FeatureToggles.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> PutProduct(Guid id, Product product)
+        public async Task<IActionResult> PutProduct(Guid id, ProductViewModel product)
         {
-            if (id != product.Id)
+            var mappedProduct = this.mapper.Map<Product>(product);
+
+            if (id != mappedProduct.Id)
             {
                 return BadRequest();
             }
 
-            this.context.Entry(product).State = EntityState.Modified;
+            this.context.Entry(mappedProduct).State = EntityState.Modified;
 
             try
             {

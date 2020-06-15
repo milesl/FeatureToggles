@@ -4,22 +4,48 @@
         <name>FeatureToggles.Api</name>
     </assembly>
     <members>
+        <member name="T:FeatureToggles.Api.Controllers.BaseApiController">
+            <summary>
+            Base Api Controller 
+            </summary>
+            <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
+        </member>
+        <member name="F:FeatureToggles.Api.Controllers.BaseApiController.context">
+            <summary>
+            The this.context
+            </summary>
+        </member>
+        <member name="F:FeatureToggles.Api.Controllers.BaseApiController.mapper">
+            <summary>
+            The mapper
+            </summary>
+        </member>
+        <member name="F:FeatureToggles.Api.Controllers.BaseApiController.logger">
+            <summary>
+            The logger
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Controllers.BaseApiController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.BaseApiController"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="mapper">The mapper.</param>
+            <param name="logger">The logger.</param>
+        </member>
         <member name="T:FeatureToggles.Api.Controllers.FeaturesController">
             <summary>
             Features controller for interacting with feature entities
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:FeatureToggles.Api.Controllers.FeaturesController.context">
-            <summary>
-            The this.context
-            </summary>
-        </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext)">
+        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.FeaturesController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.FeaturesController"/> class.
             </summary>
             <param name="context">The context.</param>
+            <param name="mapper">The mapper.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:FeatureToggles.Api.Controllers.FeaturesController.GetFeatures">
             <summary>
@@ -69,16 +95,13 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:FeatureToggles.Api.Controllers.ProductsController.context">
-            <summary>
-            The context
-            </summary>
-        </member>
-        <member name="M:FeatureToggles.Api.Controllers.ProductsController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext)">
+        <member name="M:FeatureToggles.Api.Controllers.ProductsController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.ProductsController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.ProductsController"/> class.
             </summary>
             <param name="context">The context.</param>
+            <param name="mapper">The mapper.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:FeatureToggles.Api.Controllers.ProductsController.GetProducts">
             <summary>
@@ -93,7 +116,7 @@
             <param name="id">The identifier.</param>
             <returns>A product.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.ProductsController.PutProduct(System.Guid,FeatureToggles.Api.Models.Product)">
+        <member name="M:FeatureToggles.Api.Controllers.ProductsController.PutProduct(System.Guid,FeatureToggles.Api.ViewModels.ProductViewModel)">
             <summary>
             Updates a product by identifier.
             </summary>
@@ -128,16 +151,13 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:FeatureToggles.Api.Controllers.TenantOverridesController.context">
-            <summary>
-            The context
-            </summary>
-        </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext)">
+        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.TenantOverridesController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.TenantOverridesController"/> class.
             </summary>
             <param name="context">The context.</param>
+            <param name="mapper">The mapper.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.GetTenantOverride">
             <summary>
@@ -182,16 +202,13 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:FeatureToggles.Api.Controllers.TenantsController.context">
-            <summary>
-            The context
-            </summary>
-        </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantsController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext)">
+        <member name="M:FeatureToggles.Api.Controllers.TenantsController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.TenantsController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.TenantsController"/> class.
             </summary>
             <param name="context">The context.</param>
+            <param name="mapper">The mapper.</param>
+            <param name="logger">The logger.</param>
         </member>
         <member name="M:FeatureToggles.Api.Controllers.TenantsController.GetTenants">
             <summary>
@@ -318,6 +335,14 @@
             The features.
             </value>
         </member>
+        <member name="P:FeatureToggles.Api.Models.FeatureTogglesContext.TenantOverride">
+            <summary>
+            Gets or sets the tenant override.
+            </summary>
+            <value>
+            The tenant override.
+            </value>
+        </member>
         <member name="M:FeatureToggles.Api.Models.FeatureTogglesContext.#ctor(Microsoft.EntityFrameworkCore.DbContextOptions{FeatureToggles.Api.Models.FeatureTogglesContext})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Models.FeatureTogglesContext"/> class.
@@ -325,20 +350,6 @@
             <param name="options">The options.</param>
         </member>
         <member name="M:FeatureToggles.Api.Models.FeatureTogglesContext.OnModelCreating(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <summary>
-            Override this method to further configure the model that was discovered by convention from the entity types
-            exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on your derived context. The resulting model may be cached
-            and re-used for subsequent instances of your derived context.
-            </summary>
-            <param name="modelBuilder">The builder being used to construct the model for this context. Databases (and other extensions) typically
-            define extension methods on this object that allow you to configure aspects of the model that are specific
-            to a given database.</param>
-            <remarks>
-            If a model is explicitly set on the options for this context (via <see cref="M:Microsoft.EntityFrameworkCore.DbContextOptionsBuilder.UseModel(Microsoft.EntityFrameworkCore.Metadata.IModel)" />)
-            then this method will not be run.
-            </remarks>
-        </member>
-        <member name="P:FeatureToggles.Api.Models.FeatureTogglesContext.TenantOverride">
             <summary>
             Override this method to further configure the model that was discovered by convention from the entity types
             exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on your derived context. The resulting model may be cached
@@ -619,6 +630,162 @@
             </summary>
             <param name="app">The application.</param>
             <param name="env">The env.</param>
+        </member>
+        <member name="T:FeatureToggles.Api.ViewModels.FeatureViewModel">
+            <summary>
+            Feature View Model
+            </summary>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+            <value>
+            The identifier.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="!:Feature"/> is enabled.
+            </summary>
+            <value>
+              <c>true</c> if enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.ProductId">
+            <summary>
+            Gets or sets the product identifier.
+            </summary>
+            <value>
+            The product identifier.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.Product">
+            <summary>
+            Gets or sets the product.
+            </summary>
+            <value>
+            The product.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.TenantOverrides">
+            <summary>
+            Gets or sets the tenant overrides.
+            </summary>
+            <value>
+            The tenant overrides.
+            </value>
+        </member>
+        <member name="T:FeatureToggles.Api.ViewModels.ProductViewModel">
+            <summary>
+            Product View Model
+            </summary>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.ProductViewModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+            <value>
+            The identifier.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.ProductViewModel.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.ProductViewModel.Features">
+            <summary>
+            Gets or sets the features.
+            </summary>
+            <value>
+            The features.
+            </value>
+        </member>
+        <member name="T:FeatureToggles.Api.ViewModels.TenantOverrideViewModel">
+            <summary>
+            Tenant Override View Model
+            </summary>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantOverrideViewModel.TenantId">
+            <summary>
+            Gets or sets the tenant identifier.
+            </summary>
+            <value>
+            The tenant identifier.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantOverrideViewModel.Tenant">
+            <summary>
+            Gets or sets the tenant.
+            </summary>
+            <value>
+            The tenant.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantOverrideViewModel.FeatureId">
+            <summary>
+            Gets or sets the feature identifier.
+            </summary>
+            <value>
+            The feature identifier.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantOverrideViewModel.Feature">
+            <summary>
+            Gets or sets the feature.
+            </summary>
+            <value>
+            The feature.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantOverrideViewModel.Enabled">
+            <summary>
+            Gets or sets a value indicating whether this <see cref="P:FeatureToggles.Api.ViewModels.TenantOverrideViewModel.Feature"/> is enabled for this tenant.
+            </summary>
+            <value>
+              <c>true</c> if enabled; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="T:FeatureToggles.Api.ViewModels.TenantViewModel">
+            <summary>
+            Tenant View Model
+            </summary>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantViewModel.Id">
+            <summary>
+            Gets or sets the identifier.
+            </summary>
+            <value>
+            The identifier.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantViewModel.Name">
+            <summary>
+            Gets or sets the name.
+            </summary>
+            <value>
+            The name.
+            </value>
+        </member>
+        <member name="P:FeatureToggles.Api.ViewModels.TenantViewModel.TenantOverrides">
+            <summary>
+            Gets or sets the tenant overrides.
+            </summary>
+            <value>
+            The tenant overrides.
+            </value>
         </member>
     </members>
 </doc>

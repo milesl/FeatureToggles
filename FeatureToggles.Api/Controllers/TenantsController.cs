@@ -1,7 +1,9 @@
-﻿using FeatureToggles.Api.Models;
+﻿using AutoMapper;
+using FeatureToggles.Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,20 +17,17 @@ namespace FeatureToggles.Api.Controllers
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class TenantsController : ControllerBase
+    public class TenantsController : BaseApiController
     {
-        /// <summary>
-        /// The context
-        /// </summary>
-        private readonly FeatureTogglesContext context;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TenantsController"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public TenantsController(FeatureTogglesContext context)
+        /// <param name="mapper">The mapper.</param>
+        /// <param name="logger">The logger.</param>
+        public TenantsController(FeatureTogglesContext context, IMapper mapper, ILogger<TenantsController> logger)
+            : base(context, mapper, logger)
         {
-            this.context = context;
         }
 
         /// <summary>

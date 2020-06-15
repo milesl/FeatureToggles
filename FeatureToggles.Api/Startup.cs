@@ -1,9 +1,14 @@
+using AutoMapper;
+using FeatureToggles.Api.HealthChecks;
 using FeatureToggles.Api.Models;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
@@ -66,6 +71,12 @@ namespace FeatureToggles.Api
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
+
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddHealthChecks()
+                .AddCheck<ApiHealthCheck>("example_health_check")
+                .AddDbContextCheck<FeatureTogglesContext>();
         }
 
         /// <summary>
@@ -96,6 +107,16 @@ namespace FeatureToggles.Api
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions()
+                {
+                    ResultStatusCodes =
+                    {
+                        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+                        [HealthStatus.Degraded] = StatusCodes.Status200OK,
+                        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+                    },
+                    AllowCachingResponses = false
+                });
             });
         }
     }
