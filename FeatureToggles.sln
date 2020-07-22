@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureToggles.Api", "Featu
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{76A153D4-86B2-4342-91B9-11865F83D228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureToggles.Api.Tests", "Tests\FeatureToggles.Api.Tests\FeatureToggles.Api.Tests.csproj", "{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureToggles.Api.Tests", "Tests\FeatureToggles.Api.Tests\FeatureToggles.Api.Tests.csproj", "{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{543A2CB4-7C5E-472F-9D1B-5BA2EB526DD2}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines.yml = azure-pipelines.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
