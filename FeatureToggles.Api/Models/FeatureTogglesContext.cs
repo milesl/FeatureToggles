@@ -42,7 +42,7 @@ namespace FeatureToggles.Api.Models
         /// <value>
         /// The tenant override.
         /// </value>
-        public DbSet<TenantOverride> TenantOverride { get; set; }
+        public DbSet<TenantOverride> TenantOverrides { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FeatureTogglesContext"/> class.

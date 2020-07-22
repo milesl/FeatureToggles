@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using FeatureToggles.Api.Models;
+using FeatureToggles.Api.Services.Interfaces;
+using FeatureToggles.Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FeatureToggles.Api.Controllers
@@ -19,15 +20,18 @@ namespace FeatureToggles.Api.Controllers
     [ApiController]
     public class TenantsController : BaseApiController
     {
+        private readonly ITenantsService tenantService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TenantsController"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="tenantService">The tenant service.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="logger">The logger.</param>
-        public TenantsController(FeatureTogglesContext context, IMapper mapper, ILogger<TenantsController> logger)
-            : base(context, mapper, logger)
+        public TenantsController(ITenantsService tenantService, IMapper mapper, ILogger<TenantsController> logger)
+            : base(mapper, logger)
         {
+            this.tenantService = tenantService;
         }
 
         /// <summary>
@@ -36,9 +40,10 @@ namespace FeatureToggles.Api.Controllers
         /// <returns>A collection of tenants.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<Tenant>>> GetTenants()
+        public async Task<ActionResult<IEnumerable<TenantViewModel>>> GetTenants()
         {
-            return await context.Tenants.ToListAsync();
+            var results = await this.tenantService.GetTenants();
+            return this.Ok(this.mapper.Map<IEnumerable<TenantViewModel>>(results));
         }
 
         /// <summary>
@@ -49,16 +54,15 @@ namespace FeatureToggles.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Tenant>> GetTenant(Guid id)
+        public async Task<ActionResult<TenantViewModel>> GetTenant(Guid id)
         {
-            var tenant = await context.Tenants.FindAsync(id);
-
-            if (tenant == null)
+            var result = await this.tenantService.GetTenant(id);
+            if (result == null)
             {
                 return NotFound();
             }
 
-            return tenant;
+            return this.Ok(this.mapper.Map<TenantViewModel>(result));
         }
 
         /// <summary>
@@ -78,22 +82,13 @@ namespace FeatureToggles.Api.Controllers
                 return BadRequest();
             }
 
-            context.Entry(tenant).State = EntityState.Modified;
-
             try
             {
-                await context.SaveChangesAsync();
+                await this.tenantService.UpdateTenant(tenant);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TenantExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -106,12 +101,10 @@ namespace FeatureToggles.Api.Controllers
         /// <returns>The created tenant.</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<Tenant>> PostTenant(Tenant tenant)
+        public async Task<ActionResult<TenantViewModel>> PostTenant(Tenant tenant)
         {
-            context.Tenants.Add(tenant);
-            await context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTenant", new { id = tenant.Id }, tenant);
+            var result = await this.tenantService.CreateTenant(tenant);
+            return CreatedAtAction("GetTenant", new { id = result.Id }, result);
         }
 
         /// <summary>
@@ -122,29 +115,10 @@ namespace FeatureToggles.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Tenant>> DeleteTenant(Guid id)
+        public async Task<ActionResult<TenantViewModel>> DeleteTenant(Guid id)
         {
-            var tenant = await context.Tenants.FindAsync(id);
-            if (tenant == null)
-            {
-                return NotFound();
-            }
-
-            context.Tenants.Remove(tenant);
-            await context.SaveChangesAsync();
-
-            return tenant;
-        }
-
-        /// <summary>
-        /// Tenants the exists.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>A value indicating that the tenant exists or not.</returns>
-
-        private bool TenantExists(Guid id)
-        {
-            return context.Tenants.Any(e => e.Id == id);
+            var result = await this.tenantService.DeleteTenant(id);
+            return this.Ok(this.mapper.Map<TenantViewModel>(result));
         }
     }
 }

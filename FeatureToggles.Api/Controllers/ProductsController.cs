@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FeatureToggles.Api.Models;
+using FeatureToggles.Api.Services.Interfaces;
 using FeatureToggles.Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -7,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FeatureToggles.Api.Controllers
@@ -20,15 +20,18 @@ namespace FeatureToggles.Api.Controllers
     [ApiController]
     public class ProductsController : BaseApiController
     {
+        private readonly IProductsService productService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductsController"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="productService">The product service.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="logger">The logger.</param>
-        public ProductsController(FeatureTogglesContext context, IMapper mapper, ILogger<ProductsController> logger)
-            : base(context, mapper, logger)
+        public ProductsController(IProductsService productService, IMapper mapper, ILogger<ProductsController> logger)
+            : base(mapper, logger)
         {
+            this.productService = productService;
         }
 
         /// <summary>
@@ -39,9 +42,8 @@ namespace FeatureToggles.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductViewModel>))]
         public async Task<ActionResult<IEnumerable<ProductViewModel>>> GetProducts()
         {
-            var products = await this.context.Products.ToListAsync();
-            var mapped = this.mapper.Map<IEnumerable<ProductViewModel>>(products);
-            return this.Ok(mapped);
+            var results = await this.productService.GetProducts();
+            return this.Ok(this.mapper.Map<IEnumerable<ProductViewModel>>(results));
         }
 
         /// <summary>
@@ -54,15 +56,13 @@ namespace FeatureToggles.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductViewModel>> GetProduct(Guid id)
         {
-            var product = await this.context.Products.FindAsync(id);
-
-            if (product == null)
+            var result = await this.productService.GetProduct(id);
+            if (result == null)
             {
                 return NotFound();
             }
 
-            var mapped = this.mapper.Map<ProductViewModel>(product);
-            return this.Ok(mapped);
+            return this.Ok(this.mapper.Map<ProductViewModel>(result));
         }
 
         /// <summary>
@@ -84,22 +84,13 @@ namespace FeatureToggles.Api.Controllers
                 return BadRequest();
             }
 
-            this.context.Entry(mappedProduct).State = EntityState.Modified;
-
             try
             {
-                await this.context.SaveChangesAsync();
+                await this.productService.UpdateProduct(mappedProduct);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ProductExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -115,9 +106,8 @@ namespace FeatureToggles.Api.Controllers
         public async Task<ActionResult<ProductViewModel>> PostProduct(ProductViewModel product)
         {
             var mappedProduct = this.mapper.Map<Product>(product);
-            this.context.Products.Add(mappedProduct);
-            await this.context.SaveChangesAsync();
-            return CreatedAtAction("GetProduct", new { id = product.Id }, product);
+            var result = await this.productService.CreateProduct(mappedProduct);
+            return CreatedAtAction("GetProduct", new { id = result.Id }, result);
         }
 
         /// <summary>
@@ -130,26 +120,8 @@ namespace FeatureToggles.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductViewModel>> DeleteProduct(Guid id)
         {
-            var product = await this.context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            this.context.Products.Remove(product);
-            await this.context.SaveChangesAsync();
-            var mapped = this.mapper.Map<ProductViewModel>(product);
-            return this.Ok(mapped);
-        }
-
-        /// <summary>
-        /// Products the exists.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>A value indicating that the product exists or not.</returns>
-        private bool ProductExists(Guid id)
-        {
-            return this.context.Products.Any(e => e.Id == id);
+            var result = await this.productService.DeleteProduct(id);
+            return this.mapper.Map<ProductViewModel>(result); ;
         }
     }
 }

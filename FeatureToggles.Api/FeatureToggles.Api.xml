@@ -10,11 +10,6 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="F:FeatureToggles.Api.Controllers.BaseApiController.context">
-            <summary>
-            The this.context
-            </summary>
-        </member>
         <member name="F:FeatureToggles.Api.Controllers.BaseApiController.mapper">
             <summary>
             The mapper
@@ -25,11 +20,10 @@
             The logger
             </summary>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.BaseApiController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger)">
+        <member name="M:FeatureToggles.Api.Controllers.BaseApiController.#ctor(AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger)">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.BaseApiController"/> class.
             </summary>
-            <param name="context">The context.</param>
             <param name="mapper">The mapper.</param>
             <param name="logger">The logger.</param>
         </member>
@@ -39,11 +33,11 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.FeaturesController})">
+        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.#ctor(FeatureToggles.Api.Services.Interfaces.IFeaturesService,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.FeaturesController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.FeaturesController"/> class.
             </summary>
-            <param name="context">The context.</param>
+            <param name="featuresService">The features service.</param>
             <param name="mapper">The mapper.</param>
             <param name="logger">The logger.</param>
         </member>
@@ -53,7 +47,7 @@
             </summary>
             <returns>A collection of features.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.GetFeature(System.Nullable{System.Guid})">
+        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.GetFeature(System.Guid)">
             <summary>
             Gets a feature by identifier.
             </summary>
@@ -75,19 +69,12 @@
             <param name="feature">The feature.</param>
             <returns>The created feature.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.DeleteFeature(System.Nullable{System.Guid})">
+        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.DeleteFeature(System.Guid)">
             <summary>
             Deletes a feature by identifier.
             </summary>
             <param name="id">The identifier.</param>
             <returns>The deleted feature.</returns>
-        </member>
-        <member name="M:FeatureToggles.Api.Controllers.FeaturesController.FeatureExists(System.Nullable{System.Guid})">
-            <summary>
-            Features the exists.
-            </summary>
-            <param name="id">The identifier.</param>
-            <returns>A value indicating that the feature exists or not.</returns>
         </member>
         <member name="T:FeatureToggles.Api.Controllers.ProductsController">
             <summary>
@@ -95,11 +82,11 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.ProductsController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.ProductsController})">
+        <member name="M:FeatureToggles.Api.Controllers.ProductsController.#ctor(FeatureToggles.Api.Services.Interfaces.IProductsService,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.ProductsController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.ProductsController"/> class.
             </summary>
-            <param name="context">The context.</param>
+            <param name="productService">The product service.</param>
             <param name="mapper">The mapper.</param>
             <param name="logger">The logger.</param>
         </member>
@@ -138,34 +125,27 @@
             <param name="id">The identifier.</param>
             <returns>The deleted product.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.ProductsController.ProductExists(System.Guid)">
-            <summary>
-            Products the exists.
-            </summary>
-            <param name="id">The identifier.</param>
-            <returns>A value indicating that the product exists or not.</returns>
-        </member>
         <member name="T:FeatureToggles.Api.Controllers.TenantOverridesController">
             <summary>
             Tenant override controller for interacting with tenant override entities
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.TenantOverridesController})">
+        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.#ctor(FeatureToggles.Api.Services.TenantOverridesService,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.TenantOverridesController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.TenantOverridesController"/> class.
             </summary>
-            <param name="context">The context.</param>
+            <param name="tenantOverridesService">The tenant overrides service.</param>
             <param name="mapper">The mapper.</param>
             <param name="logger">The logger.</param>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.GetTenantOverride">
+        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.GetTenantOverrides">
             <summary>
             Gets all tenant overrides.
             </summary>
             <returns>A collection of tenant overrides.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.GetTenantOverride(System.Guid)">
+        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.GetTenantOverrides(System.Guid)">
             <summary>
             Gets tenant overrides by tenant identifier.
             </summary>
@@ -187,14 +167,13 @@
             <param name="tenantOverride">The tenant override.</param>
             <returns>The created tenant override.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:FeatureToggles.Api.Controllers.TenantOverridesController.DeleteTenantOverride(System.Guid,System.Guid)" -->
-        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.TenantOverrideExists(System.Guid,System.Guid)">
+        <member name="M:FeatureToggles.Api.Controllers.TenantOverridesController.DeleteTenantOverride(System.Guid,System.Guid)">
             <summary>
-            Tenants the override exists.
+            Deletes a tenant override by tenant and feature identifier.
             </summary>
             <param name="tenantId">The tenant identifier.</param>
             <param name="featureId">The feature identifier.</param>
-            <returns>A value indicating that the tenant override exists or not.</returns>
+            <returns>The deleted tenant override.</returns>
         </member>
         <member name="T:FeatureToggles.Api.Controllers.TenantsController">
             <summary>
@@ -202,11 +181,11 @@
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantsController.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.TenantsController})">
+        <member name="M:FeatureToggles.Api.Controllers.TenantsController.#ctor(FeatureToggles.Api.Services.Interfaces.ITenantsService,AutoMapper.IMapper,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Controllers.TenantsController})">
             <summary>
             Initializes a new instance of the <see cref="T:FeatureToggles.Api.Controllers.TenantsController"/> class.
             </summary>
-            <param name="context">The context.</param>
+            <param name="tenantService">The tenant service.</param>
             <param name="mapper">The mapper.</param>
             <param name="logger">The logger.</param>
         </member>
@@ -245,12 +224,52 @@
             <param name="id">The identifier.</param>
             <returns>The deleted tenant.</returns>
         </member>
-        <member name="M:FeatureToggles.Api.Controllers.TenantsController.TenantExists(System.Guid)">
+        <member name="T:FeatureToggles.Api.Exceptions.NotFoundException">
             <summary>
-            Tenants the exists.
+            Exception when a entity is not found
             </summary>
-            <param name="id">The identifier.</param>
-            <returns>A value indicating that the tenant exists or not.</returns>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:FeatureToggles.Api.Exceptions.NotFoundException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Exceptions.NotFoundException"/> class.
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Exceptions.NotFoundException.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Exceptions.NotFoundException"/> class.
+            </summary>
+            <param name="message">The message that describes the error.</param>
+        </member>
+        <member name="M:FeatureToggles.Api.Exceptions.NotFoundException.#ctor(System.String,System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Exceptions.NotFoundException"/> class.
+            </summary>
+            <param name="message">The error message that explains the reason for the exception.</param>
+            <param name="innerException">The exception that is the cause of the current exception, or a null reference (<see langword="Nothing" /> in Visual Basic) if no inner exception is specified.</param>
+        </member>
+        <member name="M:FeatureToggles.Api.Exceptions.NotFoundException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Exceptions.NotFoundException"/> class.
+            </summary>
+            <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> that holds the serialized object data about the exception being thrown.</param>
+            <param name="context">The <see cref="T:System.Runtime.Serialization.StreamingContext" /> that contains contextual information about the source or destination.</param>
+        </member>
+        <member name="T:FeatureToggles.Api.HealthChecks.ApiHealthCheck">
+            <summary>
+            Health check endpoint for the api
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.Diagnostics.HealthChecks.IHealthCheck" />
+        </member>
+        <member name="M:FeatureToggles.Api.HealthChecks.ApiHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            Runs the health check, returning the status of the component being checked.
+            </summary>
+            <param name="context">A context object associated with the current execution.</param>
+            <param name="cancellationToken">A <see cref="T:System.Threading.CancellationToken" /> that can be used to cancel the health check.</param>
+            <returns>
+            A <see cref="T:System.Threading.Tasks.Task`1" /> that completes when the health check has finished, yielding the status of the component being checked.
+            </returns>
         </member>
         <member name="T:FeatureToggles.Api.Models.Feature">
             <summary>
@@ -335,7 +354,7 @@
             The features.
             </value>
         </member>
-        <member name="P:FeatureToggles.Api.Models.FeatureTogglesContext.TenantOverride">
+        <member name="P:FeatureToggles.Api.Models.FeatureTogglesContext.TenantOverrides">
             <summary>
             Gets or sets the tenant override.
             </summary>
@@ -599,6 +618,242 @@
             </summary>
             <param name="host">The host.</param>
         </member>
+        <member name="T:FeatureToggles.Api.Services.BaseService">
+            <summary>
+            Base service implementing logging and db context
+            </summary>
+        </member>
+        <member name="F:FeatureToggles.Api.Services.BaseService.context">
+            <summary>
+            The db context
+            </summary>
+        </member>
+        <member name="F:FeatureToggles.Api.Services.BaseService.logger">
+            <summary>
+            The logger
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.BaseService.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,Microsoft.Extensions.Logging.ILogger)">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Services.BaseService"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="T:FeatureToggles.Api.Services.FeaturesService">
+            <summary>
+            Service for interacting with features
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Services.FeaturesService})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Services.FeaturesService"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.GetFeatures">
+            <summary>
+            Gets all features.
+            </summary>
+            <returns>A collection of Features.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.GetFeature(System.Guid)">
+            <summary>
+            Gets a feature by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>A feature.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.UpdateFeature(FeatureToggles.Api.Models.Feature)">
+            <summary>
+            Updates a feature.
+            </summary>
+            <param name="feature">The feature.</param>
+            <returns>The updated feature.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.CreateFeature(FeatureToggles.Api.Models.Feature)">
+            <summary>
+            Creates a feature.
+            </summary>
+            <param name="feature">The feature.</param>
+            <returns>The created feature.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.DeleteFeature(System.Guid)">
+            <summary>
+            Deletes a feature by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>The deleted feature.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.FeaturesService.FeatureExists(System.Guid)">
+            <summary>
+            Features the exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>A value indicating that the feature exists or not.</returns>
+        </member>
+        <member name="T:FeatureToggles.Api.Services.ProductsService">
+            <summary>
+            Service for interacting with products
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Services.ProductsService})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Services.ProductsService"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.GetProducts">
+            <summary>
+            Gets all products
+            </summary>
+            <returns>A collection of Products</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.GetProduct(System.Guid)">
+            <summary>
+            Gets a product by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>A product.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.UpdateProduct(FeatureToggles.Api.Models.Product)">
+            <summary>
+            Updates a product.
+            </summary>
+            <param name="product">The product.</param>
+            <returns>The updated product.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.CreateProduct(FeatureToggles.Api.Models.Product)">
+            <summary>
+            Creates a product.
+            </summary>
+            <param name="product">The product.</param>
+            <returns>The created product.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.DeleteProduct(System.Guid)">
+            <summary>
+            Deletes a product by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>The deleted feature.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.ProductsService.ProductExists(System.Guid)">
+            <summary>
+            Product the exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>A value indicating that the product exists or not.</returns>
+        </member>
+        <member name="T:FeatureToggles.Api.Services.TenantOverridesService">
+            <summary>
+            Service for interacting with tenant override
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Services.TenantOverridesService})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Services.TenantOverridesService"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.GetTenantOverrides">
+            <summary>
+            Gets all tenantOverrides
+            </summary>
+            <returns>A collection of TenantOverrides</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.GetTenantOverrides(System.Guid)">
+            <summary>
+            Gets tenant overrides by tenant identifier.
+            </summary>
+            <param name="tenantId">The tenant identifier.</param>
+            <returns>A collection of tenant overrides.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.UpdateTenantOverride(FeatureToggles.Api.Models.TenantOverride)">
+            <summary>
+            Updates a tenantOverride.
+            </summary>
+            <param name="tenantOverride">The tenantOverride.</param>
+            <returns>The updated tenantOverride.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.CreateTenantOverride(FeatureToggles.Api.Models.TenantOverride)">
+            <summary>
+            Creates a tenantOverride.
+            </summary>
+            <param name="tenantOverride">The tenantOverride.</param>
+            <returns>The created tenantOverride.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.DeleteTenantOverride(System.Guid,System.Guid)">
+            <summary>
+            Deletes a tenant override by tenant and feature identifier.
+            </summary>
+            <param name="tenantId">The tenant identifier.</param>
+            <param name="featureId">The feature identifier.</param>
+            <returns>The deleted tenant override.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantOverridesService.TenantOverrideExists(System.Guid,System.Guid)">
+            <summary>
+            Tenants the override exists.
+            </summary>
+            <param name="tenantId">The tenant identifier.</param>
+            <param name="featureId">The feature identifier.</param>
+            <returns>A value indicating that the tenant override exists or not.</returns>
+        </member>
+        <member name="T:FeatureToggles.Api.Services.TenantsService">
+            <summary>
+            Service for interacting with tenants
+            </summary>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.#ctor(FeatureToggles.Api.Models.FeatureTogglesContext,Microsoft.Extensions.Logging.ILogger{FeatureToggles.Api.Services.TenantsService})">
+            <summary>
+            Initializes a new instance of the <see cref="T:FeatureToggles.Api.Services.TenantsService"/> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="logger">The logger.</param>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.GetTenants">
+            <summary>
+            Gets all tenants.
+            </summary>
+            <returns>A collection of tenants.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.GetTenant(System.Guid)">
+            <summary>
+            Gets a tenant by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>A tenant.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.UpdateTenant(FeatureToggles.Api.Models.Tenant)">
+            <summary>
+            Updates a tenant.
+            </summary>
+            <param name="tenant">The tenant.</param>
+            <returns>The updated tenant.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.CreateTenant(FeatureToggles.Api.Models.Tenant)">
+            <summary>
+            Creates a tenant.
+            </summary>
+            <param name="tenant">The tenant.</param>
+            <returns>The created tenant.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.DeleteTenant(System.Guid)">
+            <summary>
+            Deletes a tenant by identifier.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>The deleted tenant.</returns>
+        </member>
+        <member name="M:FeatureToggles.Api.Services.TenantsService.TenantExists(System.Guid)">
+            <summary>
+            Tenants the exists.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>A value indicating that the tenant exists or not.</returns>
+        </member>
         <member name="T:FeatureToggles.Api.Startup">
             <summary>
             Start up
@@ -654,7 +909,7 @@
         </member>
         <member name="P:FeatureToggles.Api.ViewModels.FeatureViewModel.Enabled">
             <summary>
-            Gets or sets a value indicating whether this <see cref="!:Feature"/> is enabled.
+            Gets or sets a value indicating whether this <see cref="T:FeatureToggles.Api.Models.Feature"/> is enabled.
             </summary>
             <value>
               <c>true</c> if enabled; otherwise, <c>false</c>.

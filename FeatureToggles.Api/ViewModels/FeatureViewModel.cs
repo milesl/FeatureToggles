@@ -25,7 +25,7 @@ namespace FeatureToggles.Api.ViewModels
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether this <see cref="Feature"/> is enabled.
+        /// Gets or sets a value indicating whether this <see cref="Models.Feature"/> is enabled.
         /// </summary>
         /// <value>
         ///   <c>true</c> if enabled; otherwise, <c>false</c>.

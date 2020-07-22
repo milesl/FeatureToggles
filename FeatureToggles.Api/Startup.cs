@@ -1,6 +1,8 @@
 using AutoMapper;
 using FeatureToggles.Api.HealthChecks;
 using FeatureToggles.Api.Models;
+using FeatureToggles.Api.Services;
+using FeatureToggles.Api.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
@@ -77,6 +79,11 @@ namespace FeatureToggles.Api
             services.AddHealthChecks()
                 .AddCheck<ApiHealthCheck>("example_health_check")
                 .AddDbContextCheck<FeatureTogglesContext>();
+
+            services.AddScoped<ITenantsService, TenantsService>();
+            services.AddScoped<IFeaturesService, FeaturesService>();
+            services.AddScoped<ITenantOverridesService, TenantOverridesService>();
+            services.AddScoped<IProductsService, ProductsService>();
         }
 
         /// <summary>

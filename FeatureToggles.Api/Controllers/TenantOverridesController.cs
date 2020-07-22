@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using FeatureToggles.Api.Models;
+using FeatureToggles.Api.Services;
+using FeatureToggles.Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FeatureToggles.Api.Models;
-using AutoMapper;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace FeatureToggles.Api.Controllers
 {
@@ -19,15 +21,18 @@ namespace FeatureToggles.Api.Controllers
     [ApiController]
     public class TenantOverridesController : BaseApiController
     {
+        private readonly TenantOverridesService tenantOverridesService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TenantOverridesController"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="tenantOverridesService">The tenant overrides service.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="logger">The logger.</param>
-        public TenantOverridesController(FeatureTogglesContext context, IMapper mapper, ILogger<TenantOverridesController> logger)
-            : base(context, mapper, logger)
+        public TenantOverridesController(TenantOverridesService tenantOverridesService, IMapper mapper, ILogger<TenantOverridesController> logger)
+            : base(mapper, logger)
         {
+            this.tenantOverridesService = tenantOverridesService;
         }
 
         /// <summary>
@@ -36,9 +41,10 @@ namespace FeatureToggles.Api.Controllers
         /// <returns>A collection of tenant overrides.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<IEnumerable<TenantOverride>>> GetTenantOverride()
+        public async Task<ActionResult<IEnumerable<TenantOverrideViewModel>>> GetTenantOverrides()
         {
-            return await this.context.TenantOverride.ToListAsync();
+            var results = await this.tenantOverridesService.GetTenantOverrides();
+            return this.Ok(this.mapper.Map<IEnumerable<TenantOverrideViewModel>>(results));
         }
 
         /// <summary>
@@ -49,16 +55,10 @@ namespace FeatureToggles.Api.Controllers
         [HttpGet("{tenantId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<TenantOverride>>> GetTenantOverride(Guid tenantId)
+        public async Task<ActionResult<IEnumerable<TenantOverrideViewModel>>> GetTenantOverrides(Guid tenantId)
         {
-            var tenantOverride = await this.context.TenantOverride.Where(to => to.TenantId == tenantId).ToListAsync();
-
-            if (tenantOverride == null)
-            {
-                return NotFound();
-            }
-
-            return tenantOverride;
+            var results = await this.tenantOverridesService.GetTenantOverrides(tenantId);
+            return this.Ok(this.mapper.Map<IEnumerable<TenantOverrideViewModel>>(results));
         }
 
         /// <summary>
@@ -78,22 +78,13 @@ namespace FeatureToggles.Api.Controllers
                 return BadRequest();
             }
 
-            this.context.Entry(tenantOverride).State = EntityState.Modified;
-
             try
             {
-                await this.context.SaveChangesAsync();
+                await this.tenantOverridesService.UpdateTenantOverride(tenantOverride);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!TenantOverrideExists(tenantOverride.TenantId, tenantOverride.FeatureId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -108,28 +99,11 @@ namespace FeatureToggles.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TenantOverride>> PostTenantOverride(TenantOverride tenantOverride)
         {
-            this.context.TenantOverride.Add(tenantOverride);
-            try
-            {
-                await this.context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TenantOverrideExists(tenantOverride.TenantId, tenantOverride.FeatureId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return tenantOverride;
+            return await this.tenantOverridesService.CreateTenantOverride(tenantOverride);
         }
 
         /// <summary>
-        /// Deletes a tenant override by tenant & feature identifier.
+        /// Deletes a tenant override by tenant and feature identifier.
         /// </summary>
         /// <param name="tenantId">The tenant identifier.</param>
         /// <param name="featureId">The feature identifier.</param>
@@ -137,29 +111,11 @@ namespace FeatureToggles.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<TenantOverride>> DeleteTenantOverride(Guid tenantId, Guid featureId)
+        public async Task<ActionResult<TenantOverrideViewModel>> DeleteTenantOverride(Guid tenantId, Guid featureId)
         {
-            var tenantOverride = await this.context.TenantOverride.SingleOrDefaultAsync(to => to.TenantId == tenantId && to.FeatureId == featureId);
-            if (tenantOverride == null)
-            {
-                return NotFound();
-            }
-
-            this.context.TenantOverride.Remove(tenantOverride);
-            await this.context.SaveChangesAsync();
-
-            return tenantOverride;
+            var result = await this.tenantOverridesService.DeleteTenantOverride(tenantId, featureId);
+            return this.Ok(this.mapper.Map<TenantViewModel>(result));
         }
 
-        /// <summary>
-        /// Tenants the override exists.
-        /// </summary>
-        /// <param name="tenantId">The tenant identifier.</param>
-        /// <param name="featureId">The feature identifier.</param>
-        /// <returns>A value indicating that the tenant override exists or not.</returns>
-        private bool TenantOverrideExists(Guid tenantId, Guid featureId)
-        {
-            return this.context.TenantOverride.Any(to => to.TenantId == tenantId && to.FeatureId == featureId);
-        }
     }
 }

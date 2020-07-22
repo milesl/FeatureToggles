@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureToggles.Api", "FeatureToggles.Api\FeatureToggles.Api.csproj", "{901A5AE7-035F-4616-B01F-62FAB3DA9996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeatureToggles.Api", "FeatureToggles.Api\FeatureToggles.Api.csproj", "{901A5AE7-035F-4616-B01F-62FAB3DA9996}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{76A153D4-86B2-4342-91B9-11865F83D228}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FeatureToggles.Api.Tests", "Tests\FeatureToggles.Api.Tests\FeatureToggles.Api.Tests.csproj", "{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{901A5AE7-035F-4616-B01F-62FAB3DA9996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BD1A3FBC-25D1-41C9-8E77-3DB8C26CF30B} = {76A153D4-86B2-4342-91B9-11865F83D228}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {240EC5E4-7849-45C0-B47F-4127A2C7A969}

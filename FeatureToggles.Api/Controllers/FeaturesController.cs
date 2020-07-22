@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FeatureToggles.Api.Models;
+using FeatureToggles.Api.Services.Interfaces;
 using FeatureToggles.Api.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,15 +21,18 @@ namespace FeatureToggles.Api.Controllers
     [ApiController]
     public class FeaturesController : BaseApiController
     {
+        private readonly IFeaturesService featuresService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FeaturesController"/> class.
         /// </summary>
-        /// <param name="context">The context.</param>
+        /// <param name="featuresService">The features service.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="logger">The logger.</param>
-        public FeaturesController(FeatureTogglesContext context, IMapper mapper, ILogger<FeaturesController> logger)
-            : base(context, mapper, logger)
+        public FeaturesController(IFeaturesService featuresService, IMapper mapper, ILogger<FeaturesController> logger)
+            : base(mapper, logger)
         {
+            this.featuresService = featuresService;
         }
 
         /// <summary>
@@ -37,11 +41,10 @@ namespace FeatureToggles.Api.Controllers
         /// <returns>A collection of features.</returns>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Feature>))]
-        public async Task<ActionResult<IEnumerable<Feature>>> GetFeatures()
+        public async Task<ActionResult<IEnumerable<FeatureViewModel>>> GetFeatures()
         {
-            var features = await this.context.Features.ToListAsync();
-            var mapped = this.mapper.Map<IEnumerable<FeatureViewModel>>(features);
-            return this.Ok(mapped);
+            var results = await this.featuresService.GetFeatures();
+            return this.Ok(this.mapper.Map<IEnumerable<FeatureViewModel>>(results));
         }
 
         /// <summary>
@@ -52,17 +55,15 @@ namespace FeatureToggles.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Feature>> GetFeature(Guid? id)
+        public async Task<ActionResult<FeatureViewModel>> GetFeature(Guid id)
         {
-            var feature = await this.context.Features.FindAsync(id);
-
-            if (feature == null)
+            var result = await this.featuresService.GetFeature(id);
+            if (result == null)
             {
                 return NotFound();
             }
 
-            var mapped = this.mapper.Map<FeatureViewModel>(feature);
-            return this.Ok(mapped);
+            return this.mapper.Map<FeatureViewModel>(result);
         }
 
         /// <summary>
@@ -84,22 +85,13 @@ namespace FeatureToggles.Api.Controllers
                 return BadRequest();
             }
 
-            this.context.Entry(mappedFeature).State = EntityState.Modified;
-
             try
             {
-                await this.context.SaveChangesAsync();
+                await this.featuresService.UpdateFeature(mappedFeature);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!FeatureExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
 
             return NoContent();
@@ -115,9 +107,8 @@ namespace FeatureToggles.Api.Controllers
         public async Task<ActionResult<FeatureViewModel>> PostFeature(FeatureViewModel feature)
         {
             var mappedFeature = this.mapper.Map<Feature>(feature);
-            this.context.Features.Add(mappedFeature);
-            await this.context.SaveChangesAsync();
-            return CreatedAtAction("GetFeature", new { id = feature.Id }, feature);
+            var result = await this.featuresService.CreateFeature(mappedFeature);
+            return CreatedAtAction("GetFeature", new { id = result.Id }, result);
         }
 
         /// <summary>
@@ -128,28 +119,10 @@ namespace FeatureToggles.Api.Controllers
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FeatureViewModel))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Feature>> DeleteFeature(Guid? id)
+        public async Task<ActionResult<FeatureViewModel>> DeleteFeature(Guid id)
         {
-            var feature = await this.context.Features.FindAsync(id);
-            if (feature == null)
-            {
-                return NotFound();
-            }
-
-            this.context.Features.Remove(feature);
-            await this.context.SaveChangesAsync();
-            var mapped = this.mapper.Map<FeatureViewModel>(feature);
-            return this.Ok(mapped);
-        }
-
-        /// <summary>
-        /// Features the exists.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <returns>A value indicating that the feature exists or not.</returns>
-        private bool FeatureExists(Guid? id)
-        {
-            return this.context.Features.Any(e => e.Id == id);
+            var result = await this.featuresService.DeleteFeature(id);
+            return this.mapper.Map<FeatureViewModel>(result);
         }
     }
 }
