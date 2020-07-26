@@ -32,6 +32,11 @@ namespace FeatureToggles.Api.Controllers
         public TenantOverridesController(TenantOverridesService tenantOverridesService, IMapper mapper, ILogger<TenantOverridesController> logger)
             : base(mapper, logger)
         {
+            if (tenantOverridesService == null)
+            {
+                throw new ArgumentNullException("tenantOverridesService");
+            }
+
             this.tenantOverridesService = tenantOverridesService;
         }
 

@@ -32,6 +32,11 @@ namespace FeatureToggles.Api.Controllers
         public FeaturesController(IFeaturesService featuresService, IMapper mapper, ILogger<FeaturesController> logger)
             : base(mapper, logger)
         {
+            if (featuresService == null)
+            {
+                throw new ArgumentNullException("featuresService");
+            }
+
             this.featuresService = featuresService;
         }
 

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using FeatureToggles.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace FeatureToggles.Api.Controllers
 {
     /// <summary>
-    /// Base Api Controller 
+    /// Base Api Controller
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     public abstract class BaseApiController : ControllerBase
@@ -28,6 +28,16 @@ namespace FeatureToggles.Api.Controllers
         /// <param name="logger">The logger.</param>
         public BaseApiController(IMapper mapper, ILogger logger)
         {
+            if (mapper == null)
+            {
+                throw new ArgumentNullException("mapper");
+            }
+
+            if (logger == null)
+            {
+                throw new ArgumentNullException("logger");
+            }
+
             this.mapper = mapper;
             this.logger = logger;
         }

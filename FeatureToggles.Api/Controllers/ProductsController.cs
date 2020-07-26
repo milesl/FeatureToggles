@@ -31,6 +31,11 @@ namespace FeatureToggles.Api.Controllers
         public ProductsController(IProductsService productService, IMapper mapper, ILogger<ProductsController> logger)
             : base(mapper, logger)
         {
+            if (productService == null)
+            {
+                throw new ArgumentNullException("productService");
+            }
+
             this.productService = productService;
         }
 

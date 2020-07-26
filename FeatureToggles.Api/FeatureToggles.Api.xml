@@ -6,7 +6,7 @@
     <members>
         <member name="T:FeatureToggles.Api.Controllers.BaseApiController">
             <summary>
-            Base Api Controller 
+            Base Api Controller
             </summary>
             <seealso cref="T:Microsoft.AspNetCore.Mvc.ControllerBase" />
         </member>
