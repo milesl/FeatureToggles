@@ -13,10 +13,10 @@ namespace FeatureToggles.Api.Tests.Controllers
 
     public class FeaturesControllerTests
     {
-        private FeaturesController _testClass;
-        private IFeaturesService _featuresService;
-        private IMapper _mapper;
-        private ILogger<FeaturesController> _logger;
+        private readonly FeaturesController _testClass;
+        private readonly IFeaturesService _featuresService;
+        private readonly IMapper _mapper;
+        private readonly ILogger<FeaturesController> _logger;
 
         public FeaturesControllerTests()
         {
@@ -36,19 +36,19 @@ namespace FeatureToggles.Api.Tests.Controllers
         [Fact]
         public void CannotConstructWithNullFeaturesService()
         {
-            Assert.Throws<ArgumentNullException>(() => new FeaturesController(default(IFeaturesService), new Mock<IMapper>().Object, new Mock<ILogger<FeaturesController>>().Object));
+            Assert.Throws<ArgumentNullException>(() => new FeaturesController(default, new Mock<IMapper>().Object, new Mock<ILogger<FeaturesController>>().Object));
         }
 
         [Fact]
         public void CannotConstructWithNullMapper()
         {
-            Assert.Throws<ArgumentNullException>(() => new FeaturesController(new Mock<IFeaturesService>().Object, default(IMapper), new Mock<ILogger<FeaturesController>>().Object));
+            Assert.Throws<ArgumentNullException>(() => new FeaturesController(new Mock<IFeaturesService>().Object, default, new Mock<ILogger<FeaturesController>>().Object));
         }
 
         [Fact]
         public void CannotConstructWithNullLogger()
         {
-            Assert.Throws<ArgumentNullException>(() => new FeaturesController(new Mock<IFeaturesService>().Object, new Mock<IMapper>().Object, default(ILogger<FeaturesController>)));
+            Assert.Throws<ArgumentNullException>(() => new FeaturesController(new Mock<IFeaturesService>().Object, new Mock<IMapper>().Object, default));
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace FeatureToggles.Api.Tests.Controllers
         [Fact]
         public void CannotCallPutFeatureWithNullFeature()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _testClass.PutFeature(new Guid("156b36fe-a7cc-4ccd-87d7-a5eedcfaddee"), default(FeatureViewModel)));
+            Assert.ThrowsAsync<ArgumentNullException>(() => _testClass.PutFeature(new Guid("156b36fe-a7cc-4ccd-87d7-a5eedcfaddee"), default));
         }
 
         //[Fact]
@@ -92,7 +92,7 @@ namespace FeatureToggles.Api.Tests.Controllers
         [Fact]
         public void CannotCallPostFeatureWithNullFeature()
         {
-            Assert.ThrowsAsync<ArgumentNullException>(() => _testClass.PostFeature(default(FeatureViewModel)));
+            Assert.ThrowsAsync<ArgumentNullException>(() => _testClass.PostFeature(default));
         }
 
         [Fact]

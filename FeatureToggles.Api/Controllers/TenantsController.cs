@@ -31,12 +31,7 @@ namespace FeatureToggles.Api.Controllers
         public TenantsController(ITenantsService tenantService, IMapper mapper, ILogger<TenantsController> logger)
             : base(mapper, logger)
         {
-            if (tenantService == null)
-            {
-                throw new ArgumentNullException("tenantService");
-            }
-
-            this.tenantService = tenantService;
+            this.tenantService = tenantService ?? throw new ArgumentNullException("tenantService");
         }
 
         /// <summary>

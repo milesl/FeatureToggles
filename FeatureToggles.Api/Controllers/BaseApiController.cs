@@ -28,18 +28,8 @@ namespace FeatureToggles.Api.Controllers
         /// <param name="logger">The logger.</param>
         public BaseApiController(IMapper mapper, ILogger logger)
         {
-            if (mapper == null)
-            {
-                throw new ArgumentNullException("mapper");
-            }
-
-            if (logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
-
-            this.mapper = mapper;
-            this.logger = logger;
+            this.mapper = mapper ?? throw new ArgumentNullException("mapper");
+            this.logger = logger ?? throw new ArgumentNullException("logger");
         }
     }
 }
