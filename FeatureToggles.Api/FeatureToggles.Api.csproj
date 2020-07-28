@@ -31,5 +31,11 @@
     <Folder Include="MappingProfiles\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="FeatureToggles.Api.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
